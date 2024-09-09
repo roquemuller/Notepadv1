@@ -1,4 +1,4 @@
-package br.com.elaborata.notepadv1;
+package br.com.cd6.notepadv1;
 
 import org.junit.Test;
 

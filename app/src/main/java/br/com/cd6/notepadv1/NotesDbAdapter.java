@@ -14,7 +14,7 @@
  * the License.
  */
 
-package br.com.elaborata.notepadv1;
+package br.com.cd6.notepadv1;
 
 import android.content.ContentValues;
 import android.content.Context;

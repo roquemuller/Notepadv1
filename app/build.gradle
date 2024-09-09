@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "br.com.elaborata.notepadv1"
+        applicationId "br.com.cd6.notepadv1"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
@@ -19,6 +19,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'br.com.cd6.notepadv1'
 }
 
 dependencies {

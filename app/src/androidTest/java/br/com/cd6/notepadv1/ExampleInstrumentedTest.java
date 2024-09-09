@@ -1,4 +1,4 @@
-package br.com.elaborata.notepadv1;
+package br.com.cd6.notepadv1;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("br.com.elaborata.notepadv1", appContext.getPackageName());
+        assertEquals("br.com.cd6.notepadv1", appContext.getPackageName());
     }
 }
