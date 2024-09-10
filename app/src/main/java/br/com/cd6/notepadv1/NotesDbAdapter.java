@@ -28,7 +28,7 @@ import android.util.Log;
  * Simple notes database access helper class. Defines the basic CRUD operations
  * for the notepad example, and gives the ability to list all notes as well as
  * retrieve or modify a specific note.
- *
+ * <p>
  * This has been improved from the first version of this tutorial through the
  * addition of better error handling and also using returning a Cursor instead
  * of using a collection of inner classes (which is less scalable and not
@@ -45,16 +45,19 @@ public class NotesDbAdapter {
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
 
+    private static final String DATABASE_NAME = "data.db";
+    private static final String DATABASE_TABLE = "notes";
+    private static final int DATABASE_VERSION = 1;
+
     /**
      * Database creation sql statement
      */
     private static final String DATABASE_CREATE =
-            "create table notes (_id integer primary key autoincrement, "
-                    + "title text not null, body text not null);";
+            "create table " + DATABASE_NAME + " (" +
+                    KEY_ROWID + " integer primary key autoincrement, " +
+                    KEY_TITLE + " text not null, " +
+                    KEY_BODY + " text not null);";
 
-    private static final String DATABASE_NAME = "data.db";
-    private static final String DATABASE_TABLE = "notes";
-    private static final int DATABASE_VERSION = 1;
 
     private final Context mCtx;
 
@@ -74,7 +77,7 @@ public class NotesDbAdapter {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Fazendo o Update do banco de dados da versão " + oldVersion +
                     " para " + newVersion + ", ação essa que destruirá os dados antigos");
-            db.execSQL("DROP TABLE IF EXISTS notes");
+            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_NAME);
             onCreate(db);
         }
     }
@@ -82,6 +85,7 @@ public class NotesDbAdapter {
     /**
      * Construtor - recebe o contexto para permitir que o banco de dados seja
      * criado/aberto
+     *
      * @param ctx O contexto no qual trabalhar
      */
     public NotesDbAdapter(Context ctx) {
@@ -93,7 +97,7 @@ public class NotesDbAdapter {
      * se não pode ser criado, emita uma exceção com sinal de falha
      *
      * @return this (Referencia a si mesmo, permitindo que seja canalizado para
-     *         uma chamada inicial)
+     * uma chamada inicial)
      * @throws SQLException se o banco de dados não pode ser aberto ou criado
      */
     public NotesDbAdapter open() throws SQLException {
@@ -110,8 +114,9 @@ public class NotesDbAdapter {
     /**
      * Cria uma nova nota usando o título e corpo provido. A nota criada com sucesso
      * retorna um novo rowId. Caso contrário, retorna -1 como sinal de falha     *
+     *
      * @param title O título da nota
-     * @param body O corpo da nota
+     * @param body  O corpo da nota
      * @return Retorna rowId ou -1 se houve falha
      */
     public long createNote(String title, String body) {
@@ -140,7 +145,7 @@ public class NotesDbAdapter {
      */
     public Cursor fetchAllNotes() {
 
-        return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE,
+        return mDb.query(DATABASE_TABLE, new String[]{KEY_ROWID, KEY_TITLE,
                 KEY_BODY}, null, null, null, null, null);
 
     }
@@ -156,7 +161,7 @@ public class NotesDbAdapter {
 
         Cursor mCursor =
 
-                mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
+                mDb.query(true, DATABASE_TABLE, new String[]{KEY_ROWID,
                                 KEY_TITLE, KEY_BODY}, KEY_ROWID + "=" + rowId, null,
                         null, null, null, null);
         if (mCursor != null) {
@@ -173,7 +178,7 @@ public class NotesDbAdapter {
      *
      * @param rowId Id da nota a ser atualizada
      * @param title de título a ser atualizado na nota
-     * @param body Valor a ser usado como corpo da nota
+     * @param body  Valor a ser usado como corpo da nota
      * @return Retorna true se a nota foi atualizada com sucesso e false em caso contrário.
      */
     public boolean updateNote(long rowId, String title, String body) {
